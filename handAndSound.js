@@ -18,15 +18,20 @@
 	        switch (gesture.type){
 	          case "circle":
 	              console.log("Circle Gesture");
+	                playSound(1);
 	              break;
 	          case "keyTap":
 	              console.log("Key Tap Gesture");
 	              console.log(gesture.position);
-	              if (gesture.position[0] < 0) {
+	              if (gesture.position[0] < 0 && gesture.position[2] < 0) {
 	                playSound(0);
 	                document.title = "hello"
-	              } else {
+	              } else if (gesture.position[0] < 0 && gesture.position[2] > 0){
 	                playSound(1);
+	              } else if (gesture.position[0] > 0 && gesture.position[2] < 0) {
+	              	playSound(2);
+	              } else {
+	              	playSound(3);
 	              }
 	              break;
 	          case "screenTap":
@@ -90,7 +95,7 @@
 		}
 	  });
 	  var camera = controller.plugins.riggedHand.camera;  
-	  camera.position.set(0,20,25);
+	  camera.position.set(10,30,25);
 	  camera.lookAt(new THREE.Vector3(0,3,0));
 	};
 	visualizeHand(Leap.loopController);
