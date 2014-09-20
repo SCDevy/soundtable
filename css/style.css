@@ -51,7 +51,9 @@ html, body {
 }
 
 body {
+  font-family: sans-serif;
   font-size: 16px;
+  color: white;
   overflow: hidden;
 }
 
@@ -66,12 +68,10 @@ body {
   bottom: 0;
   position: absolute;
   display: block;
-  font-family: sans-serif;
   font-weight: bold;
   font-size: 32px;
   letter-spacing: 1px;
   text-align: center;
-  color: white;
 }
 
 /* Sections */
@@ -85,7 +85,16 @@ body {
 
 .topbar>.logo {
   height: 40px;
-  margin: 15px 0 15px 15px;
+  top: 15px; left: 15px;
+  position: absolute;
+  display: inline-block;
+}
+
+.topbar>.time {
+  top: 15px; right: 15px;
+  position: absolute;
+  display: inline-block;
+  font-size: 28px;
 }
 
 .bottombar {
