@@ -26,7 +26,7 @@
 
   // scene
   var scene = new THREE.Scene();
-  var ambient = new THREE.AmbientLight( 0x222222 );
+  var ambient = new THREE.AmbientLight( 0x333333 );
   scene.add( ambient );
 
   var spotLight = new THREE.SpotLight( 0xFFFFFF );
@@ -58,3 +58,54 @@
   scene.add( plane );
   // start animation
   render(new Date().getTime());
+
+function drawParticles(x, y, z) {
+  console.log('Drawing pixels at ', x, y, z);
+  var particleCount = 50,
+      particles = new THREE.Geometry(),
+      pMaterial = new THREE.ParticleBasicMaterial({
+        color: 0xFFFFFF,
+        size: 20
+      });
+
+  // now create the individual particles
+  for (var p = 0; p < particleCount; p++) {
+
+    // create a particle with random
+    // position values, -250 -> 250
+    var pX = x + (Math.random() - 0.5) * 30,
+        pY = y + (Math.random() - 0.5) * 30,
+        pZ = z + (Math.random() - 0.5) * 30,
+        particle = new THREE.Vector3(pX, pY, pZ);
+
+    // add it to the geometry
+    particles.vertices.push(particle);
+  }
+
+  // create the particle system
+  var particleSystem = new THREE.ParticleSystem(
+      particles,
+      pMaterial);
+
+  // add it to the scene
+  scene.add(particleSystem);
+
+  var pMaterial = new THREE.ParticleBasicMaterial({
+    color: 0xFFFFFF,
+    size: 10,
+    map: THREE.ImageUtils.loadTexture(
+      'assets/bitmaps/particle.png'
+    ),
+    blending: THREE.AdditiveBlending,
+    transparent: true
+  });
+
+  // also update the particle system to
+  // sort the particles which enables
+  // the behaviour we want
+  particleSystem.sortParticles = true;
+
+  setTimeout(function() {
+    //scene.remove(particleSystem);
+  }, 5000);
+}
