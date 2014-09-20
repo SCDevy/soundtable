@@ -47,8 +47,15 @@ table {
 /* General */
 /* ===================================================== */
 body {
-  overflow: hidden;
+  height: 100%;
   font-size: 16px;
+  overflow: hidden;
+}
+
+.spacer-50 {
+  height: 50%; width: 100%;
+  background: blue;
+  position: relative;
 }
 
 /* Sections */
@@ -56,31 +63,18 @@ body {
 .topbar {
   height: 75px; width: 100%;
   top: 0;
-  position: relative;
-  background: red;
-}
-
-.center {
-  background: rgba(255,255,255,0.5);
-}
-
-.leftbar {
-  height: 100%; width: 75px;
-  left: 0;
   position: absolute;
-  background: blue;
+  background: rgba(0,0,0,0.1);
 }
 
-.rightbar {
-  height: 100%; width: 75px;
-  right: 0;
-  position: absolute;
-  background: green;
+.topbar>.logo {
+  height: 40px;
+  margin: 15px 0 15px 15px;
 }
 
 .bottombar {
   height: 75px; width: 100%;
   bottom: 0;
   position: absolute;
-  background: yellow;
+  background: rgba(0,0,0,0.1);
 }
