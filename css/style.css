@@ -46,16 +46,32 @@ table {
 
 /* General */
 /* ===================================================== */
-body {
+html, body {
   height: 100%;
+}
+
+body {
   font-size: 16px;
   overflow: hidden;
 }
 
 .spacer-50 {
   height: 50%; width: 100%;
-  background: blue;
-  position: relative;
+  position: absolute;
+  display: block;
+}
+
+.spacer-50>.notification {
+  height: 20px; width: 100%;
+  bottom: 0;
+  position: absolute;
+  display: block;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 32px;
+  letter-spacing: 1px;
+  text-align: center;
+  color: white;
 }
 
 /* Sections */
