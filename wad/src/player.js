@@ -5,8 +5,12 @@ window.onload=function() {
 	$('.centerTxt').css({'padding-top': (($(document).height()/2-myHeight)/2)+'px'});
 }
 function playSound(which){
-var sound1 = {source: 'sine', volume: 0.8, pitch: 'C3', end: {attack: 0.5, decay: 0.5, sustain: 0.5, hold: 0.5, release: 0.4}, tremolo: {shape: 'sine', magnitude: 4, speed: 3, attack: 0.1}}
-coolSound = new Wad(sound1);
+var sound1 = {source: 'sine', volume: 0.5, pitch: 'F4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 1.5, release: 0.8}, tremolo: {shape: 'sine', magnitude: 1, speed: 4, attack: 0.3}}
+var sound2 = {source: 'sine', volume: 0.5, pitch: 'A5', env: {attack: 0.5, decay: 0.5, sustain: 0.3, hold: 1.5, release: 0.8}, tremolo: {shape: 'sine', magnitude: 1, speed: 1, attack: 0.3}}
+var sound3 = {source: 'sine', volume: 0.5, pitch: 'B5', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 1.5, release: 0.8}, tremolo: {shape: 'sine', magnitude: 0.3, speed: 4, attack: 0.3}}
+var sound4 = {source: 'sine', volume: 0.5, pitch: 'D5', env: {attack: 0.5, decay: 0.5, sustain: 0.1, hold: 1.5, release: 0.8}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
+sounds = [sound1, sound2, sound3, sound4];
+coolSound = new Wad(sounds[which]);
 coolSound.play();
 
 // if(coolSound) coolSound.stop();
