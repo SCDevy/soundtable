@@ -17,9 +17,9 @@
   var camera = new THREE.PerspectiveCamera(
     45, window.innerWidth / window.innerHeight, 1, 10000);
 
-  camera.position.x =  0.09394262990915547;
-  camera.position.y = -167.41834401363872;
-  camera.position.z = -31.82114369287516;
+  camera.position.x =  0;
+  camera.position.y = -170;
+  camera.position.z = -190;
   controls = new THREE.OrbitControls( camera );
   controls.damping = 0.2;
 
@@ -65,20 +65,23 @@
   // start animation
   render(new Date().getTime());
 
-function drawParticle(x, y, z) {
+function drawParticle(x, y, z, color) {
+  console.log('color', color);
   var sphere = new THREE.Mesh(
     new THREE.SphereGeometry(2, 20, 20),
-    new THREE.MeshPhongMaterial({
-      color: 0xFFFFFF,
-    })
+    new THREE.MeshBasicMaterial()
   );
+  sphere.material.color.setHex(color);
   sphere.position.x = x;
   sphere.position.y = y;
-  if (z) {
-    sphere.position.z = z;
-  }
+  sphere.position.z = z;
   scene.add(sphere);
 }
+
+drawParticle(0, 0, 0, 0xFFFFFF);
+drawParticle(10, 0, 0, 0xFF0000);
+drawParticle(0, 10, 0, 0x00FF00);
+drawParticle(0, 0, 10, 0x0000FF);
 
 function spotlightUnder(x, y, color) {
   var underlight = new THREE.SpotLight(

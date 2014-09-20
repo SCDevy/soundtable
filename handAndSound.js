@@ -4,13 +4,14 @@
 	var output = document.getElementById('output'),
 		progress = document.getElementById('progress'); 
 	
+	var prev = null;
 	// Set up the controller:
 	Leap.loop({enableGestures: true}, function(frame) {
 		if(frame.valid) {
 			if(frame.hands.length) {
 			  	hand = frame.hands[0];
-			  	output.innerHTML = hand.grabStrength.toPrecision(2);
-		  		progress.style.width = hand.grabStrength * 100 + '%';
+			  	//output.innerHTML = hand.grabStrength.toPrecision(2);
+		  		//progress.style.width = hand.grabStrength * 100 + '%';
 			}
 		}
 		if(frame.valid && frame.gestures.length > 0){
@@ -22,6 +23,17 @@
 	          case "keyTap":
 	              console.log("Key Tap Gesture");
 	              console.log(gesture.position);
+	              if (prev) {
+	              	clearTimeout(prev);
+	              }
+	              prev = setTimeout(function() {
+	              	drawParticle(
+		              	-gesture.position[0],
+		              	-gesture.position[2],
+		              	0,
+		              	0x0F0FFF
+	              	);
+	              }, 100);
 	              if (gesture.position[0] < 0) {
 	                playSound(0);
 	                document.title = "hello"
