@@ -11,7 +11,7 @@
 			  	hand = frame.hands[0];
 			  	output.innerHTML = hand.grabStrength.toPrecision(2);
 		  		progress.style.width = hand.grabStrength * 100 + '%';
-			}			
+			}
 		}
 		if(frame.valid && frame.gestures.length > 0){
 		    frame.gestures.forEach(function(gesture){
@@ -27,6 +27,7 @@
 	                document.title = "hello"
 	              } else {
 	                playSound(1);
+	                document.title = ('Play 1');
 	              }
 	              break;
 	          case "screenTap":

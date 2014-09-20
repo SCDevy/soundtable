@@ -8,8 +8,8 @@
   // renderer
   var renderer = new THREE.WebGLRenderer({alpha: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x333333, true);
-  //renderer.shadowMapEnabled = true;
+  renderer.setClearColor(0x111111, true);
+  renderer.shadowMapEnabled = false;
   //renderer.shadowMapType    = THREE.PCFSoftShadowMap;
   document.body.appendChild(renderer.domElement);
 
@@ -22,27 +22,23 @@
   camera.position.z = -31.82114369287516;
   controls = new THREE.OrbitControls( camera );
   controls.damping = 0.2;
-  //controls.addEventListener( 'change', render );
 
   // scene
   var scene = new THREE.Scene();
-  var ambient = new THREE.AmbientLight( 0x333333 );
+  var ambient = new THREE.AmbientLight( 0xFFFFFF );
+  ambient.intensity = 0.1;
   scene.add( ambient );
 
-  var spotLight = new THREE.SpotLight( 0xFFFFFF );
-  spotLight.target.position.set( 0, 0, 0 );
-  spotLight.shadowCameraNear  = 0.01;
-  spotLight.castShadow    = true;
-  spotLight.shadowDarkness  = 0.5;
-  //spotLight.shadowCameraVisible = true;// shows where light is
-  spotLight.position.x = camera.position.x + 10;
-  spotLight.position.y = camera.position.y + 10;
-  spotLight.position.z = camera.position.z + 10;
-
-  scene.add( spotLight );
+  var mainLight = new THREE.PointLight(0x00FF00);
+  mainLight.position.set(camera.position.x + 10,
+    camera.position.y + 10, camera.position.z + 10);
+  scene.add(mainLight);
 
   var geometry = new THREE.PlaneGeometry(10000, 10000, 20 );
-  var texture = THREE.ImageUtils.loadTexture('/assets/bitmaps/tile.png', null, function() {
+  var texture = THREE.ImageUtils.loadTexture(
+    //'/assets/bitmaps/tile_transparent_red.png',
+    '/assets/bitmaps/tile.png',
+    null, function() {
     console.log('Success')
   }, function(err) {console.log(err);});
   texture.wrapS = THREE.RepeatWrapping;
@@ -54,7 +50,7 @@
       map: texture,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.2
+      opacity: 1.0,
   });
   /*
   material.transparent = true;
@@ -74,7 +70,6 @@ function drawParticle(x, y, z) {
     new THREE.SphereGeometry(2, 20, 20),
     new THREE.MeshPhongMaterial({
       color: 0xFFFFFF,
-      transparent: true,
     })
   );
   sphere.position.x = x;
@@ -86,12 +81,14 @@ function drawParticle(x, y, z) {
 }
 
 function spotlightUnder(x, y, color) {
-  var underlight = new THREE.DirectionalLight(color || 0x00FF11);
-  spotLight.target.position.set( x, y, 0 );
-  spotLight.position.set(x, y, -10);
-  spotLight.position.x = x;
-  spotLight.position.y = y;
-  spotLight.position.z = -10;
-  //spotLight.intensity = 10.0;
-  scene.add(spotLight);
+  var underlight = new THREE.SpotLight(
+    color || 0x00FF11,
+    1.0, // intensity
+    0
+    //Math.PI/2
+  );
+  underlight.target.position.set( x, y, 0 );
+  underlight.position.set(x, y, -10);
+  scene.add(underlight);
+  return underlight;
 }
