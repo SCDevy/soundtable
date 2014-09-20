@@ -1,12 +1,12 @@
-var sound1 = {source: 'sine', volume: 0.5, pitch: 'F4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 1, speed: 4, attack: 0.3}}
-var sound2 = {source: 'sine', volume: 0.5, pitch: 'A4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 1, speed: 1, attack: 0.3}}
-var sound3 = {source: 'sine', volume: 0.5, pitch: 'B4', env: {attack: 0.5, decay: 0.5, sustain: 0.1, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 0.3, speed: 4, attack: 0.3}}
-var sound4 = {source: 'sine', volume: 0.5, pitch: 'D4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
+var volume = 0.25;
+var sound1 = {source: 'sine', volume: volume, pitch: 'F4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 1, speed: 4, attack: 0.3}}
+var sound2 = {source: 'sine', volume: volume, pitch: 'A4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 1, speed: 1, attack: 0.3}}
+var sound3 = {source: 'sine', volume: volume, pitch: 'B4', env: {attack: 0.5, decay: 0.5, sustain: 0.1, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 0.3, speed: 4, attack: 0.3}}
+var sound4 = {source: 'sine', volume: volume, pitch: 'D4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
 sounds = [sound1, sound2, sound3, sound4];
 
 var playing = true;
-// var playCount = 0;
-// var maxCount = 6; // set limit for simultaneous sounds
+
 var clock = 60;
 var sound = []; var time = 0;
 var inter;
