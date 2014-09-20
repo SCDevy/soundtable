@@ -51,7 +51,7 @@ html, body {
 }
 
 body {
-  font-family: sans-serif;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
   font-size: 16px;
   color: white;
   overflow: hidden;
@@ -80,12 +80,26 @@ body {
   height: 75px; width: 100%;
   top: 0;
   position: absolute;
-  background: rgba(0,0,0,0.1);
+
+  background: rgba(0,0,0,0.15);
+  background: -moz-linear-gradient(top, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.35)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+  background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%,rgba(0,0,0,0) 100%); /* W3C */
 }
 
 .topbar>.logo {
-  height: 40px;
-  top: 15px; left: 15px;
+  height: 65px;
+  top: 5px; left: 15px;
+  position: absolute;
+  display: inline-block;
+}
+
+.topbar>.status>img {
+  height: 25px;
+  top: 25px; right: 130px;
   position: absolute;
   display: inline-block;
 }
@@ -94,12 +108,10 @@ body {
   top: 15px; right: 15px;
   position: absolute;
   display: inline-block;
-  font-size: 28px;
+  font-size: 40px;
+  font-weight: bold;
 }
 
-.bottombar {
-  height: 75px; width: 100%;
-  bottom: 0;
-  position: absolute;
-  background: rgba(0,0,0,0.1);
+.notification {
+  visibility: hidden;
 }

@@ -2,8 +2,8 @@
 	* This is the actual example part where we call grabStrength
 	*****************************************************/
 	var output = document.getElementById('output'),
-		progress = document.getElementById('progress'); 
-	
+		progress = document.getElementById('progress');
+
 	var prev = null;
 	// Set up the controller:
 	Leap.loop({enableGestures: true}, function(frame) {
@@ -44,7 +44,7 @@
 	              break;
 	          case "screenTap":
 	              console.log("Screen Tap Gesture");
-	              playSound(1);
+	              playSound(2);
 	              break;
 	          case "swipe":
 	              console.log("Swipe Gesture");
@@ -53,18 +53,18 @@
 	    });
 	  }
   });
-	
-	
+
+
 	/*********************************************************
 	* End of the actual example
 	****************************************************/
-	
-	
+
+
 	/*********************************************************
 	* The rest of the code is here for visualizing the example. Feel
 	* free to remove it to experiment with the API value only
 	****************************************************/
-	
+
 	// Adds the rigged hand and playback plugins
 	// to a given controller, providing a cool demo.
 	visualizeHand = function(controller){
@@ -80,7 +80,7 @@
 	  }).on('riggedHand.meshAdded', function(handMesh, leapHand){
 		  handMesh.material.opacity = 1;
 	  });
-	  
+
 	  var overlay = controller.plugins.playback.player.overlay;
 	  overlay.style.right = 0;
 	  overlay.style.left = 'auto';
@@ -88,8 +88,8 @@
 	  overlay.style.padding = 0;
 	  overlay.style.bottom = '13px';
 	  overlay.style.width = '180px';
-	
-	
+
+
 	  controller.use('riggedHand', {
 		scale: 1.3,
 		boneColors: function (boneMesh, leapHand){
@@ -102,7 +102,7 @@
 		  }
 		}
 	  });
-	  var camera = controller.plugins.riggedHand.camera;  
+	  var camera = controller.plugins.riggedHand.camera;
 	  camera.position.set(0,20,25);
 	  camera.lookAt(new THREE.Vector3(0,3,0));
 	};

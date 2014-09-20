@@ -1,5 +1,0 @@
-#42BAD9 - Blue
-#DADBD5 - White
-#F0CF64 - Yellow
-#F46546 - Orange
-#EA442C - Red

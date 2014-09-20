@@ -4,7 +4,9 @@ var sound3 = {source: 'sine', volume: 0.5, pitch: 'B4', env: {attack: 0.5, decay
 var sound4 = {source: 'sine', volume: 0.5, pitch: 'D4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
 sounds = [sound1, sound2, sound3, sound4];
 
-var playing = false;
+var playing = true;
+// var playCount = 0;
+// var maxCount = 6; // set limit for simultaneous sounds
 var clock = 60;
 var sound = []; var time = 0;
 var inter;
