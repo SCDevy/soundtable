@@ -26,23 +26,32 @@
 	              console.log(gesture.position);
 	              clearTimeout(prev);
 	              prev = setTimeout(function() {
+	              	/*
 	              	drawParticle(
 		              	-gesture.position[0],
 		              	-gesture.position[2],
 		              	0,
 		              	0x0F0FFF
 	              	);
+	              	*/
+	              	lightOnClick(
+	              		-gesture.position[0],
+	              		-gesture.position[2],
+	              		Math.floor(Math.random()*16777215) // random color 
+	              	)
+
+		              console.log(gesture);
+		              if (gesture.position[0] < 0 && gesture.position[2] < 0) {
+		                playSound(0);
+		              } else if (gesture.position[0] < 0 && gesture.position[2] > 0){
+		                playSound(1);
+		              } else if (gesture.position[0] > 0 && gesture.position[2] < 0) {
+		              	playSound(2);
+		              } else {
+		              	playSound(3);
+		              }
 	              }, 200);
-	              if (gesture.position[0] < 0 && gesture.position[2] < 0) {
-	                playSound(0);
-	                document.title = "hello"
-	              } else if (gesture.position[0] < 0 && gesture.position[2] > 0){
-	                playSound(1);
-	              } else if (gesture.position[0] > 0 && gesture.position[2] < 0) {
-	              	playSound(2);
-	              } else {
-	              	playSound(3);
-	              }
+
 	              break;
 	          case "screenTap":
 	              console.log("Screen Tap Gesture");
@@ -105,7 +114,7 @@
 		}
 	  });
 	  var camera = controller.plugins.riggedHand.camera;  
-	  camera.position.set(10,30,25);
+	  camera.position.set(0,30,25);
 	  camera.lookAt(new THREE.Vector3(0,3,0));
 	};
 	visualizeHand(Leap.loopController);
