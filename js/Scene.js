@@ -66,7 +66,6 @@
   render(new Date().getTime());
 
 function drawParticle(x, y, z, color) {
-  console.log('color', color);
   var sphere = new THREE.Mesh(
     new THREE.SphereGeometry(2, 20, 20),
     new THREE.MeshBasicMaterial()
