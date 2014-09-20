@@ -1,72 +1,48 @@
-var sound = 0;
-window.onload=function() {
-	$('.colorBox').width($(document).width()/2-1).height($(document).height()/2);
-	var myHeight = $('.centerTxt').height();
-	$('.centerTxt').css({'padding-top': (($(document).height()/2-myHeight)/2)+'px'});
-}
-function playSound(which){
-var sound1 = {source: 'sine', volume: 0.5, pitch: 'F4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 1.5, release: 0.8}, tremolo: {shape: 'sine', magnitude: 1, speed: 4, attack: 0.3}}
-var sound2 = {source: 'sine', volume: 0.5, pitch: 'A5', env: {attack: 0.5, decay: 0.5, sustain: 0.3, hold: 1.5, release: 0.8}, tremolo: {shape: 'sine', magnitude: 1, speed: 1, attack: 0.3}}
-var sound3 = {source: 'sine', volume: 0.5, pitch: 'B5', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 1.5, release: 0.8}, tremolo: {shape: 'sine', magnitude: 0.3, speed: 4, attack: 0.3}}
-var sound4 = {source: 'sine', volume: 0.5, pitch: 'D5', env: {attack: 0.5, decay: 0.5, sustain: 0.1, hold: 1.5, release: 0.8}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
+var sound1 = {source: 'sine', volume: 0.5, pitch: 'F4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 1, speed: 4, attack: 0.3}}
+var sound2 = {source: 'sine', volume: 0.5, pitch: 'A4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 1, speed: 1, attack: 0.3}}
+var sound3 = {source: 'sine', volume: 0.5, pitch: 'B4', env: {attack: 0.5, decay: 0.5, sustain: 0.1, hold: 0.5, release: 0.5}, tremolo: {shape: 'sine', magnitude: 0.3, speed: 4, attack: 0.3}}
+var sound4 = {source: 'sine', volume: 0.5, pitch: 'D4', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
 sounds = [sound1, sound2, sound3, sound4];
-coolSound = new Wad(sounds[which]);
-coolSound.play();
 
-// if(coolSound) coolSound.stop();
-// var coolSound;
-// // var p = document.getElementById('WADsynth');
-// var params = [];
-// var settings = {};
-// for (var i = 0; i < p.length; i++){
-// if (p[i].value) params.push(p[i].value);
-// }
-
-// console.log(params + " " + params.length);
-
-// settings = {
-//     source : params[0],
-//     volume : parseFloat(params[1]),
-//     pitch : params[2]+params[3],
-//     panning : parseFloat(params[4]),
-//     env : {
-//         attack : parseFloat(params[5]),
-//         decay : parseFloat(params[6]),
-//         sustain : parseFloat(params[7]),
-//         hold : parseFloat(params[8]),
-//         release : parseFloat(params[9])
-//     },
-//     filter : {
-//         type : params[10],
-//         frequency : parseFloat(params[11]),
-//         q : parseFloat(params[12]),
-//         env : {
-//             frequency : parseFloat(params[13]),
-//             attack : parseFloat(params[14])
-//         }
-//     },
-//     /*reverb : {
-//      wet : 1, // Volume of the reverberations.
-//      impulse : 'http://www.myServer.com/path/to/impulse.wav' // A URL for an impulse response file, if you do not want to use the default impulse response.
-//      },*/
-//     vibrato : {
-//         shape : params[15],
-//         magnitude : parseFloat(params[16]),
-//         speed : parseFloat(params[17]),
-//         attack : parseFloat(params[18])
-//     },
-
-//     tremolo : {
-//         shape : params[19],
-//         magnitude : parseFloat(params[20]),
-//         speed : parseFloat(params[21]),
-//         attack : parseFloat(params[22])
-//     }
-// }
-
-// console.log(settings);
-// coolSound = new Wad(settings);
-// coolSound.play();
+var playing = false;
+var clock = 60;
+var sound = []; var time = 0;
+var inter;
+window.onload=function() {
+	$('.colorBox').width($(document).width()/4-1).height($(document).height()*0.7);
+	var myHeight = $('.centerTxt').height();
+	$('.centerTxt').css({'padding-top': (($(document).height()*0.7-myHeight)/2)+'px'});
+	$('#exportTable').css({'top': $(document).height()*0.7}).width($(document).width()/3).height($(document).height()*0.3);
+	$('#startBtn, #stopBtn, #timer').width($(document).width()/9-1.1);
+	$('#extractor').width($(document).width()/3-5).height($('#exportTable').height()-$('#startBtn').height()-17);
 }
-
-function soundOff () {sound.stop();}
+function playSound(which, speed) {
+if(playing) {
+	newSound =  new Wad(sounds[which]);
+	sound.push([time, which]);
+	newSound.play();
+	reloadExtract();
+}
+}
+function restart() {
+	playing = true;
+	inter = setInterval(function() {addTimer();}, clock);
+	time = 0; sound = []; reloadExtract();
+}
+function onstop() {
+	playing = false;
+	clearInterval(inter);
+}
+function reloadExtract() {
+	$('#extractor').val(parseSound());
+}
+function parseSound() {
+	var txt = '';
+	for (var i = 0; i < sound.length; i++) {
+		txt += sound[i][0]+','+sound[i][1];
+		if(i < sound.length-1) {txt += '\n';}
+	};
+	return txt;
+}
+function addTimer() {time += clock; $('#timer').html('Time: '+Math.floor(time/10)/100);}
+// function soundOff() {sound.stop();}

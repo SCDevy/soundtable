@@ -8,17 +8,21 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div class="colorBox" id="box1" onclick="playSound(0);">
+<div class="colorBox" id="box1" onclick="playSound(0,0);">
 	<div class="centerTxt">Press Q</div>
 </div>
-<div class="colorBox" id="box2" onclick="playSound(1);">
+<div class="colorBox" id="box2" onclick="playSound(1,0);">
 	<div class="centerTxt">Press W</div>
 </div>
-<div class="colorBox" id="box3" onclick="playSound(2);">
+<div class="colorBox" id="box3" onclick="playSound(2,0);">
 	<div class="centerTxt">Press E</div>
 </div>
-<div class="colorBox" id="box4" onclick="playSound(3);">
+<div class="colorBox" id="box4" onclick="playSound(3,0);">
 	<div class="centerTxt">Press R</div>
+</div>
+<div id="exportTable">
+	<div id="startBtn" onclick="restart();">Play :)</div> <div id="timer">&nbsp;</div> <div id="stopBtn" onclick="onstop();">Stop !</div>
+	<textarea id="extractor" name="extractor"></textarea>
 </div>
 </body>
 </html>
