@@ -17,7 +17,7 @@
   // camera
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
 
-  camera.position.x = -2.2255566278918946;  
+  camera.position.x = -2.2255566278918946;
   camera.position.y = -486.6494503521805;
   camera.position.z = 114.74911489629282;
   controls = new THREE.OrbitControls( camera );
@@ -26,7 +26,7 @@
 
   // scene
   var scene = new THREE.Scene();
-            
+
   var geometry = new THREE.PlaneGeometry(10000, 10000, 20 );
   var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
   var plane = new THREE.Mesh( geometry, material );
