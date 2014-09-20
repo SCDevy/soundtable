@@ -37,7 +37,7 @@
 	              	lightOnClick(
 	              		-gesture.position[0],
 	              		-gesture.position[2],
-	              		Math.floor(Math.random()*16777215) // random color 
+	              		0xFF0000 // random color 
 	              	)
 
 		              console.log(gesture);

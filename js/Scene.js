@@ -1,6 +1,7 @@
   function render(time){
     // update
     // render
+    console.log('render our three');
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
@@ -8,7 +9,7 @@
   // renderer
   var renderer = new THREE.WebGLRenderer({alpha: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColor(0x111111, true);
+  renderer.setClearColor(0xFFFFFF, true);
   //renderer.shadowMapEnabled = true;
   document.body.appendChild(renderer.domElement);
 
@@ -28,21 +29,11 @@
   var scene = new THREE.Scene();
   var ambient = new THREE.AmbientLight( 0x333333 );
   scene.add( ambient );
-
-  var texture = THREE.ImageUtils.loadTexture(
-    //'/assets/bitmaps/tile_transparent_red.png',
-    '/assets/bitmaps/tile.png',
-    null, function() {
-    console.log('Success')
-  }, function(err) {console.log(err);});
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.x = 256;
-  texture.repeat.y = 256;
+  
+  render(new Date().getTime());
 
 
   // start animation
-  render(new Date().getTime());
 
 function drawParticle(x, y, z, color) {
   var sphere = new THREE.Mesh(
@@ -67,20 +58,29 @@ function lightOnClick(x, y, color) {
 
 function placeLight(x, y, z, color) {
   console.log('place light', x, y, z, color, ' woo!');
-  var pointLight = new THREE.PointLight(color, 1.0, 30);
+  var pointLight = new THREE.PointLight(color, 1.0, 300);
   pointLight.position.set(x, y, z);
   scene.add(pointLight);
-  scene.add(new THREE.PointLightHelper(pointLight, 1));
+  //scene.add(new THREE.PointLightHelper(pointLight, 1));
+  plane.material.needsUpdate = true;
   return pointLight;
 }
 
-// var planeGeom = ;
-// var material = ;
+
+  var texture = THREE.ImageUtils.loadTexture(
+    //'/assets/bitmaps/tile_transparent_red.png',
+    '/assets/bitmaps/tile.png',
+    null, function() {
+    console.log('Success')
+  }, function(err) {console.log(err);});
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.x = 50;
+  texture.repeat.y = 50;
 var plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(100, 100),
-  new THREE.MeshPhongMaterial({side: THREE.DoubleSide})
+  new THREE.PlaneGeometry(1000, 1000),
+  new THREE.MeshPhongMaterial({side: THREE.DoubleSide, map: texture})
 );
+
 plane.material.color.setHex(0xFFFFF);
 scene.add(plane);
-
-lightOnClick(0, 0, 0x0000FF);
