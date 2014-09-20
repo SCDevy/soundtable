@@ -6,11 +6,11 @@
   }
 
   // renderer
-  var renderer = new THREE.WebGLRenderer();
+  var renderer = new THREE.WebGLRenderer({alpha: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setClearColorHex( 0x000000, 1 );
-  renderer.shadowMapEnabled = true;
-  renderer.shadowMapType    = THREE.PCFSoftShadowMap;
+  renderer.setClearColor(0x333333, true);
+  //renderer.shadowMapEnabled = true;
+  //renderer.shadowMapType    = THREE.PCFSoftShadowMap;
   document.body.appendChild(renderer.domElement);
 
   // camera
@@ -47,65 +47,51 @@
   }, function(err) {console.log(err);});
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.x = 1000;
-  texture.repeat.y = 1000;
+  texture.repeat.x = 256;
+  texture.repeat.y = 256;
 
   var material = new THREE.MeshPhongMaterial({
       map: texture,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.2
   });
+  /*
+  material.transparent = true;
+  material.blending = THREE.MultiplyBlending;
+  material.blendSrc = THREE.OneMinusSrcAlphaFactor;
+  material.blendDst = THREE.SrcColorFactor;
+  material.blendEquation = THREE.AddEquation;
+  */
+
   var plane = new THREE.Mesh( geometry, material );
   scene.add( plane );
   // start animation
   render(new Date().getTime());
 
-function drawParticles(x, y, z) {
-  console.log('Drawing pixels at ', x, y, z);
-  var particleCount = 50,
-      particles = new THREE.Geometry(),
-      pMaterial = new THREE.ParticleBasicMaterial({
-        color: 0xFFFFFF,
-        size: 20
-      });
-
-  // now create the individual particles
-  for (var p = 0; p < particleCount; p++) {
-
-    // create a particle with random
-    // position values, -250 -> 250
-    var pX = x + (Math.random() - 0.5) * 30,
-        pY = y + (Math.random() - 0.5) * 30,
-        pZ = z + (Math.random() - 0.5) * 30,
-        particle = new THREE.Vector3(pX, pY, pZ);
-
-    // add it to the geometry
-    particles.vertices.push(particle);
+function drawParticle(x, y, z) {
+  var sphere = new THREE.Mesh(
+    new THREE.SphereGeometry(2, 20, 20),
+    new THREE.MeshPhongMaterial({
+      color: 0xFFFFFF,
+      transparent: true,
+    })
+  );
+  sphere.position.x = x;
+  sphere.position.y = y;
+  if (z) {
+    sphere.position.z = z;
   }
+  scene.add(sphere);
+}
 
-  // create the particle system
-  var particleSystem = new THREE.ParticleSystem(
-      particles,
-      pMaterial);
-
-  // add it to the scene
-  scene.add(particleSystem);
-
-  var pMaterial = new THREE.ParticleBasicMaterial({
-    color: 0xFFFFFF,
-    size: 10,
-    map: THREE.ImageUtils.loadTexture(
-      'assets/bitmaps/particle.png'
-    ),
-    blending: THREE.AdditiveBlending,
-    transparent: true
-  });
-
-  // also update the particle system to
-  // sort the particles which enables
-  // the behaviour we want
-  particleSystem.sortParticles = true;
-
-  setTimeout(function() {
-    //scene.remove(particleSystem);
-  }, 5000);
+function spotlightUnder(x, y, color) {
+  var underlight = new THREE.DirectionalLight(color || 0x00FF11);
+  spotLight.target.position.set( x, y, 0 );
+  spotLight.position.set(x, y, -10);
+  spotLight.position.x = x;
+  spotLight.position.y = y;
+  spotLight.position.z = -10;
+  //spotLight.intensity = 10.0;
+  scene.add(spotLight);
 }
