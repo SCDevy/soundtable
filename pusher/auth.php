@@ -1,8 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 include("pusher.php");
-echo 'Hello world';
 $pusher = new Pusher(
   "9f2cde4bf9c16af5d034", "bf441c57e38a97b090b1", "90168"
 );
