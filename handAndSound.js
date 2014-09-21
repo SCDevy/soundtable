@@ -52,22 +52,33 @@ function leapPointToWorld(leapPoint, frame)
 	              	*/
               	// document.title=Math.floor(gesture.position[0])+" and "+Math.floor(gesture.position[2]);
               	var pt = leapPointToWorld(gesture.position, frame);
-              	lightOnClick(
-              		pt.x,
-              		pt.y,
-              		0xFF0000 // random color
-              	);
 
 	              console.log(gesture);
-	              if (gesture.position[0] < 0 && gesture.position[2] < 0) {
+	              if (pt.x > 75 && pt.y > 0) { // top-left
 	                playSound(0);
-	              } else if (gesture.position[0] < 0 && gesture.position[2] > 0){
+									lightOnClick(pt.x,pt.y,0x0C37FF);
+	              } else if (pt.x > 75 && pt.y < 0){ // bottom-left
 	                playSound(1);
-	              } else if (gesture.position[0] > 0 && gesture.position[2] < 0) {
-	              	playSound(2);
-	              } else {
-	              	playSound(3);
-	              }
+									lightOnClick(pt.x,pt.y,0x009CFF);
+								} else if (pt.x < 75 && pt.x > 0 && pt.y > 0){ // top-center-left
+										playSound(2);
+										lightOnClick(pt.x,pt.y,0x03FFEF);
+								} else if (pt.x < 75 && pt.x > 0 && pt.y < 0){ // bottom-center-left
+										playSound(3);
+										lightOnClick(pt.x,pt.y,0x8C0BFF);
+	              } else if (pt.x < -75 && pt.y > 0) { // top-center-right
+	              	playSound(4);
+									lightOnClick(pt.x,pt.y,0xE80DCA);
+	              } else if (pt.x < -75 && pt.y < 0) { // bottom-center-right
+	              	playSound(5);
+									lightOnClick(pt.x,pt.y,0xFF078B);
+								} else if (pt.x > -75 && pt.x < 0 && pt.y > 0) { // top-right
+										playSound(6);
+										lightOnClick(pt.x,pt.y,0x0BC4E8);
+								} else if (pt.x > -75 && pt.x < 0 && pt.y < 0) { // bottom-right
+									playSound(7);
+									lightOnClick(pt.x,pt.y,0xE301FF);
+								}
 
 	              break;
 	          case "screenTap":
