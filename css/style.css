@@ -61,7 +61,7 @@ body {
   height: 100%; width: 100%;
   position: absolute;
   display: block;
-  background: rgba(0,0,0,0);
+  background: rgba(0,0,0,0.6);
 }
 
 .spacer-50 {
@@ -79,6 +79,12 @@ body {
   font-size: 32px;
   letter-spacing: 1px;
   text-align: center;
+}
+.n-logo {
+  height: 72px;
+  top: 26px;
+  margin-left: 10px;
+  position: relative;
 }
 
 /* Sections */

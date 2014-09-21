@@ -44,11 +44,21 @@ function leapPointToWorld(leapPoint, frame)
 	Leap.loop({enableGestures: true}, function(frame) {
 		if(frame.valid) {
 			if(frame.hands.length) {
-			  	hand = frame.hands[0];
-			  	//output.innerHTML = hand.grabStrength.toPrecision(2);
-		  		//progress.style.width = hand.grabStrength * 100 + '%';
+					for (var i = 0; i < frame.hands.length; i++) {
+						hand = frame.hands[i];
+						if(hand.grabStrength > 0.9) {
+							console.log(hand.grabStrength);
+							start();
+							break;
+						}
+					}
 			}
 		}
+
+		if(!started) {
+			return;
+		}
+
 		if(frame.valid && frame.gestures.length > 0){
 		    frame.gestures.forEach(function(gesture){
 	        switch (gesture.type){

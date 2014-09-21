@@ -15,9 +15,15 @@
   // camera
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
 
+  var cameraPositionAnim = {
+    x: 0,
+    y: -242.69,
+    z: -230
+  };
+
   camera.position.x =  0;
   camera.position.y = -242.69;
-  camera.position.z = -230;
+  camera.position.z = 0;
   camera.lookAt(new THREE.Vector3(0,0,0));
   var controls = new THREE.OrbitControls( camera );
   //controls.damping = 0.2;
@@ -112,15 +118,112 @@ var theFUCKINGBackground = new THREE.Mesh(
 );
 theFUCKINGBackground.scale.y = -1;
 theFUCKINGBackground.rotation.x = -Math.PI / 2;
+
 scene.add(theFUCKINGBackground);
-var period = 100 * 1000;
-var rotateBg = new TWEEN.Tween({y: 0})
-  .to({y: 2 * Math.PI}, period)
-  .repeat(Infinity)
-  .onUpdate(function() {
-    theFUCKINGBackground.rotation.y = this.y;
+
+
+var started = false;
+var pusherChannel = null;
+function connectPusher() {
+  var pusher = new Pusher('9f2cde4bf9c16af5d034', {authEndpoint: 'pusher/auth.php'});
+  var channel = pusher.subscribe('presence-SoundTable');
+  console.log('pusher!')
+  // SEND
+  channel.bind('pusher:subscription_succeeded', function() {
+    console.log('Pusher bound!');
+    channel.bind('pusher:member_added', function() {alertLog('Someone has joined');});
+    channel.bind('pusher:member_removed', function() {alertLog('Someone has left');});
+    channel.bind('client-sendWave', function(data) {
+      createWave(data.which, data.x, data.y);
+    });
   });
-rotateBg.start();
+  pusherChannel = channel;
+}
+
+function sendWave(which, x, y) {
+  pusherChannel.trigger("client-sendWave", {which: which, x: x, y: y});
+}
+
+function alertLog(msg) {
+  alertify.log(msg);
+  console.log(msg);
+}
+
+function fadeIntro(element) {
+    var op = 0.6;  // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0.1){
+            clearInterval(timer);
+            element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+    }, 50);
+}
+
+function startAnimation() {
+  var period = 100 * 1000;
+  var rotateBg = new TWEEN.Tween({y: 0})
+    .to({y: 2 * Math.PI}, period)
+    .repeat(Infinity)
+    .onUpdate(function() {
+      theFUCKINGBackground.rotation.y = this.y;
+    });
+  rotateBg.start();
+
+  var moveInBoard = new TWEEN.Tween({y: -230})
+    .to({y: 0}, 1500)
+    .easing(TWEEN.Easing.Exponential.In)
+    .onUpdate(function() {
+      plane.position.y = this.y;
+    })
+    .onComplete(function() {
+      plane.position.y = 0;
+    })
+    .start();
+  var origin = new THREE.Vector3(0,0,0);
+  var positionCamera = new TWEEN.Tween({z: 0})
+    .to({z: cameraPositionAnim.z}, 1500)
+    .easing(TWEEN.Easing.Cubic.InOut)
+    .onUpdate(function() {
+      camera.position.z = this.z;
+      camera.lookAt(origin);
+    })
+    .onComplete(function() {
+      camera.position.z = cameraPositionAnim.z;
+    })
+    .start()
+}
+
+function playChord() {
+  playSound(4);
+}
+
+function start() {
+  if (started) {
+    return
+  }
+  started = true;
+
+  document.getElementById("notification").innerHTML = "You are connecting to <img src='assets/bitmaps/logo.png' alt='SoundTable' class='n-logo'>";
+
+  connectPusher();
+
+  setTimeout(function() {
+    fadeIntro(document.getElementById("intro"));
+    startAnimation();
+    playChord();
+  }, 2000 );
+}
 
 plane.material.color.setHex(0xFFFFF);
+plane.position.y = -10000;
 scene.add(plane);
+
+function resizeThree() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+}
+
+window.addEventListener('resize', resizeThree);
