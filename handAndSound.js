@@ -27,7 +27,7 @@ for (var i = 0; i < sounds.length; i++) {
 var samplingDists = {};
 
 for (var i = 0; i < soundsRange.length; i++) {
-	samplingDists[i] = getTriangleDistrWeights(sounds, i);
+	samplingDists[i] = getUniformDistrWeights(sounds, i);
 }
 
 function createWave(which, x, y) {
