@@ -24,7 +24,8 @@
 
   // scene
   var scene = new THREE.Scene();
-  var ambient = new THREE.AmbientLight( 0x333333);
+  var ambient = new THREE.AmbientLight( 0x777777);
+  ambient.intensity = 0.2;
   scene.add( ambient );
 
   render(new Date().getTime());
@@ -85,17 +86,22 @@ function placeLight(x, y, z, color) {
 
 
 var texture = THREE.ImageUtils.loadTexture(
-  '/assets/bitmaps/tile.png',
+  '/assets/bitmaps/hextiles.png',
   null, function() {
   console.log('Success')
 }, function(err) {console.log(err);});
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;
-texture.repeat.x = 20;
-texture.repeat.y = 20;
+texture.repeat.x = 3;
+texture.repeat.y = 3;
 var plane = new THREE.Mesh(
   new THREE.PlaneGeometry(300, 300), // DO NOT FUCKING CHANGE 300 x 300
-  new THREE.MeshPhongMaterial({side: THREE.DoubleSide, map: texture})
+  new THREE.MeshPhongMaterial({
+    side: THREE.DoubleSide,
+    map: texture,
+    transparent: true,
+    opacity: 0.3
+  })
 );
 
 var theFUCKINGBackground = new THREE.Mesh(
