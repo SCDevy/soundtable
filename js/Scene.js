@@ -1,7 +1,6 @@
   function render(time){
     // update
     // render
-    console.log('render our three');
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
@@ -10,20 +9,17 @@
   var renderer = new THREE.WebGLRenderer({alpha: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setClearColor(0xFFFFFF, true);
-  //renderer.shadowMapEnabled = true;
   document.body.appendChild(renderer.domElement);
 
   // camera
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
 
-  camera.position.x =  -5;
-  camera.position.y = -169;
-  camera.position.z = -180;
-  camera.rotation.x = 2.1970790981090493;
-  camera.rotation.y = -0.00223161024954756;
-  camera.rotation.z = 3.138507931568059;
-  controls = new THREE.OrbitControls( camera );
-  controls.damping = 0.2;
+  camera.position.x =  0;
+  camera.position.y = -150;
+  camera.position.z = -100;
+  camera.lookAt(new THREE.Vector3(0,0,0));
+  var controls = new THREE.OrbitControls( camera );
+  //controls.damping = 0.2;
 
   // scene
   var scene = new THREE.Scene();
@@ -38,7 +34,7 @@
 function drawParticle(x, y, z, color) {
   var sphere = new THREE.Mesh(
     new THREE.BoxGeometry(5, 5, 11),
-    new THREE.MeshPhongMaterial()
+    new THREE.MeshBasicMaterial()
   );
   sphere.material.color.setHex(color);
   sphere.position.x = x;
@@ -47,10 +43,10 @@ function drawParticle(x, y, z, color) {
   scene.add(sphere);
 }
 
-//drawParticle(0, 0, 0, 0xFFFFFF);
-//drawParticle(10, 0, 0, 0xFF0000);
-// drawParticle(0, 10, 0, 0x00FF00);
-// drawParticle(0, 0, 10, 0x0000FF);
+drawParticle(0, 0, 0, 0xFFFFFF);
+drawParticle(10, 0, 0, 0xFF0000);
+drawParticle(0, 10, 0, 0x00FF00);
+drawParticle(0, 0, 10, 0x0000FF);
 
 function lightOnClick(x, y, color) {
   return placeLight(x, y, -10, color);
@@ -61,7 +57,7 @@ function placeLight(x, y, z, color) {
   var pointLight = new THREE.PointLight(color, 1.0, 300);
   pointLight.position.set(x, y, z);
   scene.add(pointLight);
-  //scene.add(new THREE.PointLightHelper(pointLight, 1));
+  scene.add(new THREE.PointLightHelper(pointLight, 1));
   plane.material.needsUpdate = true;
   return pointLight;
 }
@@ -75,10 +71,10 @@ function placeLight(x, y, z, color) {
   }, function(err) {console.log(err);});
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.x = 50;
-  texture.repeat.y = 50;
+  texture.repeat.x = 40;
+  texture.repeat.y = 40;
 var plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(1000, 1000),
+  new THREE.PlaneGeometry(300, 300),
   new THREE.MeshPhongMaterial({side: THREE.DoubleSide, map: texture})
 );
 
