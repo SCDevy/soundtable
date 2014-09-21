@@ -1,3 +1,13 @@
+/*
+function uniformSample(arr) {
+  var ind = Math.floor(Math.random() * arr.length);
+  if (arr.length > 0) {
+    ind = Math.min(arr.length - 1, ind);
+  }
+  return arr[ind];
+}
+*/
+
 function sampleFrom(arr, weights) {
   var cutoff = Math.random();
   var totalWeightSoFar = 0.0;

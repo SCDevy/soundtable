@@ -51,13 +51,6 @@ function drawParticle(x, y, z, color) {
   scene.add(sphere);
 }
 
-/*
-drawParticle(0, 0, 0, 0xFFFFFF);
-drawParticle(10, 0, 0, 0xFF0000);
-drawParticle(0, 10, 0, 0x00FF00);
-drawParticle(0, 0, 10, 0x0000FF);
-*/
-
 function lightOnClick(x, y, color) {
   return placeLight(x, y, -10, color);
 }
@@ -194,6 +187,19 @@ function startAnimation() {
     .start()
 }
 
+function playStartingLightEffects() {
+  var lights = 1;
+  for (var i = -lights; i <= lights; i++) {
+    for (var j = -lights; j <= lights; j++) {
+      lightOnClick(
+        i * 300 / (2 * lights + 1),
+        j * 300 / (2 * lights + 1),
+        sound2color[Math.floor(Math.random() * sounds.length)]
+      );
+    }
+  }
+}
+
 function start() {
   if (started) {
     return
@@ -208,6 +214,7 @@ function start() {
     fadeIntro(document.getElementById("intro"));
     startAnimation();
     playChord([2,4,5]);
+    playStartingLightEffects();
   }, 2000 );
 }
 
