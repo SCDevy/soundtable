@@ -16,8 +16,11 @@ body {
 #box2 {background-color: #fa9543;} #box2:active {background-color: #da9543;}
 #box3 {background-color: #8f43fa;} #box3:active {background-color: #8f43da;}
 #box4 {background-color: #42d1c5;} #box4:active {background-color: #42c1b5;}
-#exportTable {
+#exportTable, #importTable {
 	position: absolute; border-right: 1px solid black;
+}
+#importTable {
+	right: 0px; border-left: 1px solid black;
 }
 #startBtn, #stopBtn, #timer {
 	float: left; width: 100px; padding: 5px 0px;
