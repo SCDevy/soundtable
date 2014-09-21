@@ -149,6 +149,19 @@ function alertLog(msg) {
   console.log(msg);
 }
 
+function fadeIntro(element) {
+    var op = 0.6;  // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0.1){
+            clearInterval(timer);
+            element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= op * 0.1;
+    }, 50);
+}
+
 function startAnimation() {
   var period = 100 * 1000;
   var rotateBg = new TWEEN.Tween({y: 0})
@@ -188,8 +201,15 @@ function start() {
     return
   }
   started = true;
+
+  document.getElementById("notification").innerHTML = "You are connecting to <img src='assets/bitmaps/logo.png' alt='SoundTable' class='n-logo'>";
+
   connectPusher();
-  startAnimation();
+
+  setTimeout(function() {
+    fadeIntro(document.getElementById("intro"));
+    startAnimation();
+  }, 2000 );
 }
 
 plane.material.color.setHex(0xFFFFF);
