@@ -290,5 +290,5 @@ function runPointClouds() {
       pointCloud.position.z = pointCloudOffScreenPos.z;
     });
   movePointCloud.start();
-  playChord([6, 8, 10]);
+  playChord([6, 8, 9]);
 }
