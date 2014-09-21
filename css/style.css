@@ -99,7 +99,7 @@ body {
 
 .topbar>.status>img {
   height: 25px;
-  top: 25px; right: 130px;
+  top: 25px; right: 15px;
   position: absolute;
   display: inline-block;
 }
@@ -113,5 +113,5 @@ body {
 }
 
 .notification {
-  visibility: hidden;
-}
+/*   visibility: hidden; */
+ }
