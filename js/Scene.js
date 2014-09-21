@@ -195,3 +195,10 @@ function start() {
 plane.material.color.setHex(0xFFFFF);
 plane.position.y = -10000;
 scene.add(plane);
+
+function resizeThree() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+}
+
+window.addEventListener('resize', resizeThree);
