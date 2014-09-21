@@ -5,6 +5,24 @@
 		progress = document.getElementById('progress');
 
 	var prev = null;
+function leapPointToWorld(leapPoint, frame)
+{
+    var normalized = frame.interactionBox.normalizePoint(leapPoint, false);
+    //recenter origin
+    var normX = Math.max(Math.min(1, normalized[0]), 0) - 0.5;
+    var normY = Math.max(Math.min(1, normalized[1]), 0);
+    var normZ = Math.max(Math.min(1, normalized[2]), 0) - 0.5;
+    //scale
+    var scale = 300;
+    var scaleX = scale;
+    var scaleY = scale;
+    var scaleZ = 100;
+    var worldX = scaleX * -normX; // our x is opposite their x
+    var worldY = scaleY * -normZ;
+    var worldZ = scaleZ * -normY;
+    return new THREE.Vector3(worldX, worldY, worldZ);
+}
+
 	// Set up the controller:
 	Leap.loop({enableGestures: true}, function(frame) {
 		if(frame.valid) {
@@ -23,9 +41,7 @@
 	              break;
 	          case "keyTap":
 	              console.log("Key Tap Gesture");
-	              console.log(gesture.position);
-	              clearTimeout(prev);
-	              prev = setTimeout(function() {
+	              console.log(gesture.state);
 	              	/*
 	              	drawParticle(
 		              	-gesture.position[0],
@@ -34,23 +50,24 @@
 		              	0x0F0FFF
 	              	);
 	              	*/
-	              	lightOnClick(
-	              		-gesture.position[0],
-	              		-gesture.position[2],
-	              		0xFF0000 // random color
-	              	)
+              	// document.title=Math.floor(gesture.position[0])+" and "+Math.floor(gesture.position[2]);
+              	var pt = leapPointToWorld(gesture.position, frame);
+              	lightOnClick(
+              		pt.x,
+              		pt.y,
+              		0xFF0000 // random color
+              	);
 
-		              console.log(gesture);
-		              if (gesture.position[0] < 0 && gesture.position[2] < 0) {
-		                playSound(0);
-		              } else if (gesture.position[0] < 0 && gesture.position[2] > 0){
-		                playSound(1);
-		              } else if (gesture.position[0] > 0 && gesture.position[2] < 0) {
-		              	playSound(2);
-		              } else {
-		              	playSound(3);
-		              }
-	              }, 200);
+	              console.log(gesture);
+	              if (gesture.position[0] < 0 && gesture.position[2] < 0) {
+	                playSound(0);
+	              } else if (gesture.position[0] < 0 && gesture.position[2] > 0){
+	                playSound(1);
+	              } else if (gesture.position[0] > 0 && gesture.position[2] < 0) {
+	              	playSound(2);
+	              } else {
+	              	playSound(3);
+	              }
 
 	              break;
 	          case "screenTap":
