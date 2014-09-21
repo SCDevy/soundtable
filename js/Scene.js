@@ -63,7 +63,6 @@ function lightOnClick(x, y, color) {
 }
 
 function placeLight(x, y, z, color) {
-  console.log('place light', x, y, z, color, ' woo!');
   var pointLight = new THREE.PointLight(color, 1.0, 80000);
   pointLight.position.set(x, y, z);
   scene.add(pointLight);
@@ -260,14 +259,14 @@ var pointCloudEnd = {
 }
 
 var pointCloudRunning = false;
-function runPointClouds() {
+function runPointClouds(moveLeft) {
   if (pointCloudRunning || !started) {
     return;
   }
   pointCloudRunning = true;
   console.log(pointCloudStart);
-  var movePointCloud = new TWEEN.Tween({x: pointCloudStart.x})
-    .to({x: pointCloudEnd.x}, 2000)
+  var movePointCloud = new TWEEN.Tween({x: moveLeft ? pointCloudStart.x : pointCloudEnd.x})
+    .to({x: moveLeft ? pointCloudEnd.x : pointCloudStart.x}, 2000)
     .easing(TWEEN.Easing.Cubic.InOut)
     .onUpdate(function() {
       pointCloud.position.x = this.x;

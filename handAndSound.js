@@ -47,7 +47,6 @@ function leapPointToWorld(leapPoint, frame)
 					for (var i = 0; i < frame.hands.length; i++) {
 						hand = frame.hands[i];
 						if(hand.grabStrength > 0.9) {
-							console.log(hand.grabStrength);
 							start();
 							break;
 						}
@@ -68,19 +67,7 @@ function leapPointToWorld(leapPoint, frame)
 	              break;
 	          case "keyTap":
 	              console.log("Key Tap Gesture");
-	              console.log(gesture.state);
-	              	/*
-	              	drawParticle(
-		              	-gesture.position[0],
-		              	-gesture.position[2],
-		              	0,
-		              	0x0F0FFF
-	              	);
-	              	*/
-              	// document.title=Math.floor(gesture.position[0])+" and "+Math.floor(gesture.position[2]);
               	var pt = leapPointToWorld(gesture.position, frame);
-
-	              console.log(gesture);
 	              if (pt.x > 75 && pt.y > 0) { // top-left
 	              	createWave(0, pt.x, pt.y);
 	              	sendWave(0, pt.x, pt.y);
@@ -113,7 +100,10 @@ function leapPointToWorld(leapPoint, frame)
 	              playSound(2);
 	              break;
 	          case "swipe":
-	              runPointClouds();
+	          		var swipeDir = gesture.direction;
+	          		var renderSpaceSwipeDir = leapPointToWorld(swipeDir, frame);
+	          		var moveLeft = renderSpaceSwipeDir.x > 0;
+	              runPointClouds(moveLeft);
 	              break;
 	        }
 	    });
@@ -173,34 +163,3 @@ function leapPointToWorld(leapPoint, frame)
 	  camera.lookAt(new THREE.Vector3(0,3,0));
 	};
 	visualizeHand(Leap.loopController);
-
-
-// 	var controller2 = Leap.loop({enableGestures: true}, function(frame){
-//     if(frame.valid && frame.gestures.length > 0){
-//     frame.gestures.forEach(function(gesture){
-// 		document.title = gesture.type;
-//         switch (gesture.type){
-//           case "circle":
-//               console.log("Circle Gesture");
-//               break;
-//           case "keyTap":
-//               console.log("Key Tap Gesture");
-//               console.log(gesture.position);
-//               if (gesture.position[0] < 0) {
-//                 playSound(0);
-//                 document.title = "hello"
-//               } else {
-//                 playSound(1);
-//               }
-//               break;
-//           case "screenTap":
-//               console.log("Screen Tap Gesture");
-//               playSound(1);
-//               break;
-//           case "swipe":
-//               console.log("Swipe Gesture");
-//               break;
-//         }
-//     });
-//   }
-// });
