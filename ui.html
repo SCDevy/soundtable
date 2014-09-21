@@ -1,23 +1,23 @@
 <!DOCTYPE html>
   <head></head>
   <body>
-    <p>UI.html</p>
     <script src="//js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="wad/src/jquery.js"></script>
     <script type="text/javascript">
-    var pusher = new Pusher('9f2cde4bf9c16af5d034');
-    var channel = pusher.subscribe('SoundTable');
+    var pusher = new Pusher('9f2cde4bf9c16af5d034', {authEndpoint: 'pusher/auth.php'});
+    var channel = pusher.subscribe('presence-SoundTable');
 
     // SEND
     channel.bind('pusher:subscription_succeeded', function() {
-      var triggered = channel.trigger('client-soundEvent', { your: data });
+      channel.bind('pusher:member_added', function() {alert('somebody joined');});
+      channel.bind('pusher:member_removed', function() {alert('somebody left');});
+      channel.bind('client-sendWave', function(data) {alert(data.who+' says hi!');});
     });
-
-    // RECIEVE
-    channel.bind('client-soundEvent', function(data) {
-      // x-position: data.x, y-position: data.y, sound selection: data.sound
-      // DO SOMETHING
-    });
+    function sendMsg() {
+      channel.trigger("client-sendWave", {who: $('#name').val()});
     }
     </script>
+    <input type="text" name="name" id="name" placeholder="Your name son" />
+    <input type="submit" name="clicker" value="Click on me !" onclick="sendMsg();" />
   </body>
 </html>
