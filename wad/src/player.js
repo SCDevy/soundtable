@@ -13,16 +13,43 @@ var sounds = [sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, so
 var lastPlay1 = 0;
 var lastPlay2 = 0;
 
-var sound = [];
+var soundsPlaying = [];
+var soundsToPlay = [];
 function playSound(which, speed) {
 	var myTime = (new Date()).getTime();
-	if((myTime-lastPlay1) > 200 && (myTime-lastPlay2) > 1000) {
-		newSound =  new Wad(sounds[which]);
-		sound.push(which);
-		newSound.play();
-		lastPlay2 = lastPlay1; lastPlay1 = myTime;
+	newSound =  new Wad(sounds[which]);
+	var now = new Date().getTime();
+	soundsToPlay.push({
+		sound: newSound,
+		time: now,
+		skipAfter: now + 300,
+	});
+}
+
+function playSounds(time) {
+	for (var i = 0; i < soundsPlaying.length; i++) {
+		if (time > soundsPlaying[i].stopTime) {
+			//console.log('played sound for', time - soundsPlaying[i].startTime,soundsPlaying[i].sound);
+			soundsPlaying[i].sound.stop();
+			soundsPlaying.splice(i, 1);
+			i--;
+		}
+	}
+	while (soundsPlaying.length < 3 && soundsToPlay.length) {
+		var nextSound = soundsToPlay.shift();
+		if (time > nextSound.skipAfter) {
+			console.log('Skipped sound!')
+			continue;
+		}
+		nextSound.sound.play();
+		soundsPlaying.push({
+			stopTime: 200 + time,
+			startTime: time,
+			sound: nextSound.sound
+		});
 	}
 }
+
 function playChord(hi) {
 	newSound1 = new Wad(sounds[hi[0]]);
 	newSound2 = new Wad(sounds[hi[1]]);

@@ -2,6 +2,7 @@
     // update
     // render
     TWEEN.update();
+    playSounds(time);
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
@@ -86,7 +87,6 @@ function placeLight(x, y, z, color) {
 var texture = THREE.ImageUtils.loadTexture(
   'assets/bitmaps/hextiles.png',
   null, function() {
-  console.log('Success')
 }, function(err) {console.log(err);});
 texture.wrapS = THREE.RepeatWrapping;
 texture.wrapT = THREE.RepeatWrapping;

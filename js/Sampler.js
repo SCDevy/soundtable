@@ -45,13 +45,24 @@ function getUniformDistrWeights(arr, index) {
 
 function getTriangleDistrWeights(arr, index) {
   var result = [];
-  var l =  1 / (index + 1); // E[X] = 1 / l
   for (var i = 0; i < arr.length; i++) {
     var distFromInd = Math.abs(i - index);
     result.push(arr.length - distFromInd);
   }
   return normalize(result);
 }
+
+
+function getSmoothedTriangleDistrWeights(arr, index, alpha) {
+  var result = [];
+  var l =  1 / (index + 1); 
+  for (var i = 0; i < arr.length; i++) {
+    var distFromInd = Math.abs(i - index);
+    result.push(arr.length - distFromInd + alpha);
+  }
+  return normalize(result);
+}
+
 
 /*
 var fruits = ['apples', 'oranges', 'bannanas', 'pears', 'peaches', 'strawberries'];
