@@ -25,7 +25,7 @@
   camera.position.y = -242.69;
   camera.position.z = 0;
   camera.lookAt(new THREE.Vector3(0,0,0));
-  var controls = new THREE.OrbitControls( camera );
+  //var controls = new THREE.OrbitControls( camera );
   //controls.damping = 0.2;
 
   // scene
@@ -127,10 +127,9 @@ var pusherChannel = null;
 function connectPusher() {
   var pusher = new Pusher('9f2cde4bf9c16af5d034', {authEndpoint: 'pusher/auth.php'});
   var channel = pusher.subscribe('presence-SoundTable');
-  console.log('pusher!')
+
   // SEND
   channel.bind('pusher:subscription_succeeded', function() {
-    console.log('Pusher bound!');
     channel.bind('pusher:member_added', function() {alertLog('Someone has joined');});
     channel.bind('pusher:member_removed', function() {alertLog('Someone has left');});
     channel.bind('client-sendWave', function(data) {
@@ -223,3 +222,73 @@ function resizeThree() {
 }
 
 window.addEventListener('resize', resizeThree);
+
+var pointCloudGeom = new THREE.Geometry();
+var NUM_PARTICLES =  1500;
+for (var i = 0; i < NUM_PARTICLES; i++) {
+  var vertex = new THREE.Vector3();
+  vertex.x = (Math.random() - 0.5) * 50;
+  vertex.y = (Math.random() - 0.5) * 250;
+  vertex.z = -(Math.random()) * 100;
+  pointCloudGeom.vertices.push(vertex);
+}
+
+var pointCloud = new THREE.PointCloud(
+  pointCloudGeom,
+  new THREE.PointCloudMaterial( { size: 2 } )
+);
+var pointCloudOffScreenPos = {
+  x: -400,
+  y: 0,
+  z: 0,
+};
+pointCloud.position.x = pointCloudOffScreenPos.x;
+pointCloud.position.y = pointCloudOffScreenPos.y;
+pointCloud.position.z = pointCloudOffScreenPos.z;
+scene.add(pointCloud);
+
+var pointCloudStart = {
+  x: -300,
+  y: 50,
+  z: 0,
+};
+
+var pointCloudEnd = {
+  x: 300,
+  y: 50,
+  z: 0,
+}
+
+var pointCloudRunning = false;
+function runPointClouds() {
+  if (pointCloudRunning || !started) {
+    return;
+  }
+  pointCloudRunning = true;
+  console.log(pointCloudStart);
+  var movePointCloud = new TWEEN.Tween({x: pointCloudStart.x})
+    .to({x: pointCloudEnd.x}, 2000)
+    .easing(TWEEN.Easing.Cubic.InOut)
+    .onUpdate(function() {
+      pointCloud.position.x = this.x;
+      // manipulate the points
+      for (var i = 0; i < pointCloud.geometry.vertices.length; i++) {
+        var vertex = pointCloud.geometry.vertices[i];
+        if (Math.random() < 0.1) {
+          continue;
+        }
+        vertex.x = Math.max(-50, Math.min(50, vertex.x + Math.random() - 0.5));
+        vertex.y = Math.max(-50, Math.min(250, vertex.y + Math.random() - 0.5));
+        vertex.z = Math.max(-100, Math.min(0, vertex.z + Math.random() - 0.5));
+      }
+      pointCloud.geometry.verticesNeedUpdate = true;
+    })
+    .onComplete(function() {
+      pointCloudRunning = false;
+      pointCloud.position.x = pointCloudOffScreenPos.x;
+      pointCloud.position.y = pointCloudOffScreenPos.y;
+      pointCloud.position.z = pointCloudOffScreenPos.z;
+    });
+  movePointCloud.start();
+  playChord([6, 8, 10]);
+}

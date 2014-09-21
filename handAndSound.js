@@ -113,7 +113,7 @@ function leapPointToWorld(leapPoint, frame)
 	              playSound(2);
 	              break;
 	          case "swipe":
-	              console.log("Swipe Gesture");
+	              runPointClouds();
 	              break;
 	        }
 	    });
