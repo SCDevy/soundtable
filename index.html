@@ -15,7 +15,7 @@
      <section class="notification" id="notification"></section>
     </div>
 
-    <!-- <script src="js/ui.js"></script>-->
+    <script src="//js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.js"></script>
     <script src="//js.leapmotion.com/leap-0.6.2.min.js"></script>
     <script src="//js.leapmotion.com/leap-plugins-0.1.6.1.js"></script>
@@ -27,5 +27,22 @@
     <script src="js/OrbitControls.js"></script>
     <script src="js/Scene.js"></script>
     <script src="handAndSound.js"></script>
+
+    <script type="text/javascript">
+    var pusher = new Pusher('9f2cde4bf9c16af5d034', {authEndpoint: 'pusher/auth.php'});
+    var channel = pusher.subscribe('presence-SoundTable');
+
+    // SEND
+    channel.bind('pusher:subscription_succeeded', function() {
+      channel.bind('pusher:member_added', function() {});
+      channel.bind('pusher:member_removed', function() {});
+      channel.bind('client-sendWave', function(data) {
+        createWave(data.which, data.x, data.y)
+      });
+    });
+    function sendWave(which, x, y) {
+      channel.trigger("client-sendWave", {which: which, x: x, y: y});
+    }
+    </script>
   </body>
 </html>
