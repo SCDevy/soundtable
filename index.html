@@ -32,9 +32,10 @@
     <script type="text/javascript">
     var pusher = new Pusher('9f2cde4bf9c16af5d034', {authEndpoint: 'pusher/auth.php'});
     var channel = pusher.subscribe('presence-SoundTable');
-
+    console.log('pusher!')
     // SEND
     channel.bind('pusher:subscription_succeeded', function() {
+      console.log('Pusher bound!');
       channel.bind('pusher:member_added', function() {alertLog('Someone has joined');});
       channel.bind('pusher:member_removed', function() {alertLog('Someone has left');});
       channel.bind('client-sendWave', function(data) {
@@ -46,6 +47,7 @@
     }
     function alertLog(msg) {
       alertify.log(msg);
+      console.log(msg);
     }
     </script>
     <script src="js/alertify.js"></script>

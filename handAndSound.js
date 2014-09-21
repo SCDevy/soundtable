@@ -72,21 +72,29 @@ function leapPointToWorld(leapPoint, frame)
 
 	              console.log(gesture);
 	              if (pt.x > 75 && pt.y > 0) { // top-left
-	              	createWave(0, pt.x, pt.y)
+	              	createWave(0, pt.x, pt.y);
+	              	sendWave(0, pt.x, pt.y);
 	              } else if (pt.x > 75 && pt.y < 0){ // bottom-left
-	              	createWave(1, pt.x, pt.y)
+	              	createWave(1, pt.x, pt.y);
+	              	sendWave(1, pt.x, pt.y);
 								} else if (pt.x < 75 && pt.x > 0 && pt.y > 0){ // top-center-left
-	              	createWave(2, pt.x, pt.y)
+	              	createWave(2, pt.x, pt.y);
+	              	sendWave(2, pt.x, pt.y);
 								} else if (pt.x < 75 && pt.x > 0 && pt.y < 0){ // bottom-center-left
-	              	createWave(3, pt.x, pt.y)
+	              	createWave(3, pt.x, pt.y);
+	              	sendWave(3, pt.x, pt.y);
 	              } else if (pt.x < -75 && pt.y > 0) { // top-center-right
-	              	createWave(4, pt.x, pt.y)
+	              	createWave(4, pt.x, pt.y);
+	              	sendWave(4, pt.x, pt.y);
 	              } else if (pt.x < -75 && pt.y < 0) { // bottom-center-right
-	              	createWave(5, pt.x, pt.y)
+	              	createWave(5, pt.x, pt.y);
+	              	sendWave(5, pt.x, pt.y);
 								} else if (pt.x > -75 && pt.x < 0 && pt.y > 0) { // top-right
-	              	createWave(6, pt.x, pt.y)
+	              	createWave(6, pt.x, pt.y);
+	              	sendWave(6, pt.x, pt.y);
 								} else if (pt.x > -75 && pt.x < 0 && pt.y < 0) { // bottom-right
-	              	createWave(7, pt.x, pt.y)
+	              	createWave(7, pt.x, pt.y);
+	              	sendWave(7, pt.x, pt.y);
 								}
 
 	              break;
