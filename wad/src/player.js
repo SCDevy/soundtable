@@ -10,47 +10,16 @@ var sound8 = {source: 'sine', volume: volume, pitch: 'A5', env: {attack: 0.5, de
 var sound9 = {source: 'sine', volume: volume, pitch: 'C6', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
 var sound10 = {source: 'sine', volume: volume, pitch: 'E6', env: {attack: 0.5, decay: 0.5, sustain: 0.2, hold: 0.5, release: 0.5}, vibrato: {shape: 'square', magnitude: 1, speed: 2, attack: 0.3}}
 sounds = [sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, sound9, sound10];
+var lastPlay1 = 0;
+var lastPlay2 = 0;
 
-var playing = true;
-
-var clock = 60;
-var sound = []; var time = 0;
-var inter;
-window.onload=function() {
-	$('.colorBox').width($(document).width()/4-1).height($(document).height()*0.7);
-	var myHeight = $('.centerTxt').height();
-	$('.centerTxt').css({'padding-top': (($(document).height()*0.7-myHeight)/2)+'px'});
-	$('#exportTable').css({'top': $(document).height()*0.7}).width($(document).width()/3).height($(document).height()*0.3);
-	$('#startBtn, #stopBtn, #timer').width($(document).width()/9-1.1);
-	$('#extractor').width($(document).width()/3-5).height($('#exportTable').height()-$('#startBtn').height()-17);
-}
+var sound = [];
 function playSound(which, speed) {
-if(playing) {
-	newSound =  new Wad(sounds[which]);
-	sound.push([time, which]);
-	newSound.play();
-	reloadExtract();
+	int myTime = (new Date()).getTime();
+	if((myTime-lastPlay1) > 200 && (myTime-lastPlay2) > 1000) {
+		newSound =  new Wad(sounds[which]);
+		sound.push(which);
+		newSound.play();
+		lastPlay2 = lastPlay1; lastPlay1 = myTime;
+	}
 }
-}
-function restart() {
-	playing = true;
-	inter = setInterval(function() {addTimer();}, clock);
-	time = 0; sound = []; reloadExtract();
-}
-function onstop() {
-	playing = false;
-	clearInterval(inter);
-}
-function reloadExtract() {
-	$('#extractor').val(parseSound());
-}
-function parseSound() {
-	var txt = '';
-	for (var i = 0; i < sound.length; i++) {
-		txt += sound[i][0]+','+sound[i][1];
-		if(i < sound.length-1) {txt += '\n';}
-	};
-	return txt;
-}
-function addTimer() {time += clock; $('#timer').html('Time: '+Math.floor(time/10)/100);}
-// function soundOff() {sound.stop();}

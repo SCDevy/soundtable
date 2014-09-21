@@ -45,5 +45,15 @@
 <div id="importTable">
 	Check out a sound:
 </div>
+<script type="text/javascript">
+	window.onload=function() {
+		$('.colorBox').width($(document).width()/4-1).height($(document).height()*0.7);
+		var myHeight = $('.centerTxt').height();
+		$('.centerTxt').css({'padding-top': (($(document).height()*0.7-myHeight)/2)+'px'});
+		$('#exportTable').css({'top': $(document).height()*0.7}).width($(document).width()/3).height($(document).height()*0.3);
+		$('#startBtn, #stopBtn, #timer').width($(document).width()/9-1.1);
+		$('#extractor').width($(document).width()/3-5).height($('#exportTable').height()-$('#startBtn').height()-17);
+	}
+</script>
 </body>
 </html>
