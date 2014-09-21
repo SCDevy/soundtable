@@ -57,6 +57,13 @@ body {
   overflow: hidden;
 }
 
+.spacer-100 {
+  height: 100%; width: 100%;
+  position: absolute;
+  display: block;
+  background: rgba(0,0,0,0.6);
+}
+
 .spacer-50 {
   height: 50%; width: 100%;
   position: absolute;
