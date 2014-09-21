@@ -22,7 +22,7 @@ function playSound(which, speed) {
 	soundsToPlay.push({
 		sound: newSound,
 		time: now,
-		skipAfter: now + 300,
+		skipAfter: now + 50,
 	});
 }
 
