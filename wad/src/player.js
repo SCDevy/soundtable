@@ -15,7 +15,7 @@ var lastPlay2 = 0;
 
 var sound = [];
 function playSound(which, speed) {
-	int myTime = (new Date()).getTime();
+	var myTime = (new Date()).getTime();
 	if((myTime-lastPlay1) > 200 && (myTime-lastPlay2) > 1000) {
 		newSound =  new Wad(sounds[which]);
 		sound.push(which);
