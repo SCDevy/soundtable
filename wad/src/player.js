@@ -9,18 +9,17 @@ var sound7 = {source: 'sine', volume: volume, pitch: 'G5', env: {attack: 0.35, d
 var sound8 = {source: 'sine', volume: volume, pitch: 'C6', env: {attack: 0.35, decay: 0.7, sustain: 0.2, hold: 0.35, release: 0.35}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
 var sound9 = {source: 'sine', volume: volume, pitch: 'E6', env: {attack: 0.35, decay: 0.7, sustain: 0.2, hold: 0.35, release: 0.35}, vibrato: {shape: 'sine', magnitude: 1, speed: 2, attack: 0.3}}
 var sound10 = {source: 'sine', volume: volume, pitch: 'F6', env: {attack: 0.35, decay: 0.7, sustain: 0.2, hold: 0.35, release: 0.35}, vibrato: {shape: 'square', magnitude: 1, speed: 2, attack: 0.3}}
-sounds = [sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, sound9, sound10];
+var sounds = [sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, sound9, sound10];
 var lastPlay1 = 0;
 var lastPlay2 = 0;
+var samplingDist = {};
+
+for (var i = 0; i < sounds.length; i++) {
+	samplingDist[i] = getTriangleDistrWeights(sounds, i);
+}
 
 var sound = [];
 function playSound(which, speed) {
-	if (which < 4) {
-		which = Math.floor(Math.random()*4);
-	}
-	else {
-		which = Math.floor(Math.random()*4) + 4;
-	}
 	var myTime = (new Date()).getTime();
 	if((myTime-lastPlay1) > 200 && (myTime-lastPlay2) > 1000) {
 		newSound =  new Wad(sounds[which]);

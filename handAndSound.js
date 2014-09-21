@@ -15,6 +15,19 @@ var sound2color = {
 	5: 0xFF078B,
 	6: 0x0BC4E8,
 	7: 0xE301FF,
+	8: 0x03FFEF, // THIS IS MADE UP
+	9: 0x0C37FF, // <-- THIS IS MADE UP
+};
+
+var soundsRange = [];
+for (var i = 0; i < sounds.length; i++) {
+	soundsRange.push(i);
+}
+
+var samplingDists = {};
+
+for (var i = 0; i < soundsRange.length; i++) {
+	samplingDists[i] = getTriangleDistrWeights(sounds, i);
 }
 
 function createWave(which, x, y) {
@@ -68,36 +81,31 @@ function leapPointToWorld(leapPoint, frame)
 	          case "keyTap":
 	              console.log("Key Tap Gesture");
               	var pt = leapPointToWorld(gesture.position, frame);
+              	var soundId = 0;
 	              if (pt.x > 75 && pt.y > 0) { // top-left
-	              	createWave(0, pt.x, pt.y);
-	              	sendWave(0, pt.x, pt.y);
+									soundId = 0;
 	              } else if (pt.x > 75 && pt.y < 0){ // bottom-left
-	              	createWave(1, pt.x, pt.y);
-	              	sendWave(1, pt.x, pt.y);
+									soundId = 1;
 								} else if (pt.x < 75 && pt.x > 0 && pt.y > 0){ // top-center-left
-	              	createWave(2, pt.x, pt.y);
-	              	sendWave(2, pt.x, pt.y);
+									soundId = 2;
 								} else if (pt.x < 75 && pt.x > 0 && pt.y < 0){ // bottom-center-left
-	              	createWave(3, pt.x, pt.y);
-	              	sendWave(3, pt.x, pt.y);
+									soundId = 3;
 	              } else if (pt.x < -75 && pt.y > 0) { // top-center-right
-	              	createWave(4, pt.x, pt.y);
-	              	sendWave(4, pt.x, pt.y);
+									soundId = 4;
 	              } else if (pt.x < -75 && pt.y < 0) { // bottom-center-right
-	              	createWave(5, pt.x, pt.y);
-	              	sendWave(5, pt.x, pt.y);
+									soundId = 5;
 								} else if (pt.x > -75 && pt.x < 0 && pt.y > 0) { // top-right
-	              	createWave(6, pt.x, pt.y);
-	              	sendWave(6, pt.x, pt.y);
+									soundId = 6;
 								} else if (pt.x > -75 && pt.x < 0 && pt.y < 0) { // bottom-right
-	              	createWave(7, pt.x, pt.y);
-	              	sendWave(7, pt.x, pt.y);
+									soundId = 7;
 								}
+								soundId = sampleFrom(soundsRange, samplingDists[soundId]);
+								createWave(soundId, pt.x, pt.y);
+								sendWave(soundId, pt.x, pt.y);
 
 	              break;
 	          case "screenTap":
 	              console.log("Screen Tap Gesture");
-	              playSound(2);
 	              break;
 	          case "swipe":
 	          		var swipeDir = gesture.direction;
