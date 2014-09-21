@@ -209,7 +209,7 @@ function start() {
   setTimeout(function() {
     fadeIntro(document.getElementById("intro"));
     startAnimation();
-    // playChord();
+    playChord([2,4,5]);
   }, 2000 );
 }
 

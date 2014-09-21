@@ -33,7 +33,6 @@ function playChord(hi) {
 	newSound1 = new Wad(sounds[hi[0]]);
 	newSound2 = new Wad(sounds[hi[1]]);
 	newSound3 = new Wad(sounds[hi[2]]);
-	sound.push(which);
 	newSound1.play();
 	newSound2.play();
 	newSound3.play();
