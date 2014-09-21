@@ -22,7 +22,8 @@ function playSound(which, speed) {
 	soundsToPlay.push({
 		sound: newSound,
 		time: now,
-		skipAfter: now + 50,
+		skipAfter: now + 32,
+		id: which,
 	});
 }
 
@@ -41,11 +42,28 @@ function playSounds(time) {
 			console.log('Skipped sound!')
 			continue;
 		}
+
+		var alreadyPlaying = false;
+		for (var i = 0; i < soundsPlaying.length; i++) {
+			if (soundsPlaying[i].id === nextSound.id) {
+				alreadyPlaying = true;
+				if (soundsPlaying[i].startTime - time < 800) {
+					soundsPlaying[i].stopTime = soundsPlaying[i].startTime + 800;
+				}
+				break;
+			}
+		}
+		
+		if (alreadyPlaying) {
+			continue;
+		}
+
 		nextSound.sound.play();
 		soundsPlaying.push({
 			stopTime: 200 + time,
 			startTime: time,
-			sound: nextSound.sound
+			sound: nextSound.sound,
+			id: nextSound.id,
 		});
 	}
 }
