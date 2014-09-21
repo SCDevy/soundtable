@@ -1,6 +1,7 @@
   function render(time){
     // update
     // render
+    TWEEN.update();
     renderer.render(scene, camera);
     requestAnimationFrame(render);
   }
@@ -15,15 +16,15 @@
   var camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
 
   camera.position.x =  0;
-  camera.position.y = -150;
-  camera.position.z = -100;
+  camera.position.y = -242.69;
+  camera.position.z = -230;
   camera.lookAt(new THREE.Vector3(0,0,0));
   var controls = new THREE.OrbitControls( camera );
   //controls.damping = 0.2;
 
   // scene
   var scene = new THREE.Scene();
-  var ambient = new THREE.AmbientLight( 0x333333 );
+  var ambient = new THREE.AmbientLight( 0x333333);
   scene.add( ambient );
   
   render(new Date().getTime());
@@ -43,10 +44,12 @@ function drawParticle(x, y, z, color) {
   scene.add(sphere);
 }
 
+/*
 drawParticle(0, 0, 0, 0xFFFFFF);
 drawParticle(10, 0, 0, 0xFF0000);
 drawParticle(0, 10, 0, 0x00FF00);
 drawParticle(0, 0, 10, 0x0000FF);
+*/
 
 function lightOnClick(x, y, color) {
   return placeLight(x, y, -10, color);
@@ -57,26 +60,48 @@ function placeLight(x, y, z, color) {
   var pointLight = new THREE.PointLight(color, 1.0, 300);
   pointLight.position.set(x, y, z);
   scene.add(pointLight);
-  scene.add(new THREE.PointLightHelper(pointLight, 1));
+  //scene.add(new THREE.PointLightHelper(pointLight, 1));
   plane.material.needsUpdate = true;
+  setTimeout(function() {
+    // remove or your OS's FPS will hate you.
+    scene.remove(pointLight);
+  }, 3000);
   return pointLight;
 }
 
 
-  var texture = THREE.ImageUtils.loadTexture(
-    //'/assets/bitmaps/tile_transparent_red.png',
-    '/assets/bitmaps/tile.png',
-    null, function() {
-    console.log('Success')
-  }, function(err) {console.log(err);});
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.x = 40;
-  texture.repeat.y = 40;
+var texture = THREE.ImageUtils.loadTexture(
+  //'/assets/bitmaps/tile_transparent_red.png',
+  '/assets/bitmaps/tile.png',
+  null, function() {
+  console.log('Success')
+}, function(err) {console.log(err);});
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+texture.repeat.x = 20;
+texture.repeat.y = 20;
 var plane = new THREE.Mesh(
-  new THREE.PlaneGeometry(300, 300),
+  new THREE.PlaneGeometry(300, 300), // DO NOT FUCKING CHANGE 300 x 300
   new THREE.MeshPhongMaterial({side: THREE.DoubleSide, map: texture})
 );
+
+var theFUCKINGBackground = new THREE.Mesh(
+  new THREE.CylinderGeometry(250, 250, 500, 32),
+  new THREE.MeshBasicMaterial({
+    map: THREE.ImageUtils.loadTexture('/assets/HUGE/remoreassetsforyou/stars1.png')
+  })
+);
+theFUCKINGBackground.scale.y = -1;
+theFUCKINGBackground.rotation.x = -Math.PI / 2;
+scene.add(theFUCKINGBackground);
+var period = 100 * 1000;
+var rotateBg = new TWEEN.Tween({y: 0})
+  .to({y: 2 * Math.PI}, period)
+  .repeat(Infinity)
+  .onUpdate(function() {
+    theFUCKINGBackground.rotation.y = this.y;
+  });
+rotateBg.start();
 
 plane.material.color.setHex(0xFFFFF);
 scene.add(plane);

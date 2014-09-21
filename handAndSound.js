@@ -16,7 +16,7 @@ function leapPointToWorld(leapPoint, frame)
     var scale = 300;
     var scaleX = scale;
     var scaleY = scale;
-    var scaleZ = 150;
+    var scaleZ = 100;
     var worldX = scaleX * -normX; // our x is opposite their x
     var worldY = scaleY * -normZ;
     var worldZ = scaleZ * -normY;
