@@ -57,21 +57,34 @@ function lightOnClick(x, y, color) {
 
 function placeLight(x, y, z, color) {
   console.log('place light', x, y, z, color, ' woo!');
-  var pointLight = new THREE.PointLight(color, 1.0, 300);
+  var pointLight = new THREE.PointLight(color, 1.0, 800);
   pointLight.position.set(x, y, z);
   scene.add(pointLight);
-  //scene.add(new THREE.PointLightHelper(pointLight, 1));
   plane.material.needsUpdate = true;
-  setTimeout(function() {
-    // remove or your OS's FPS will hate you.
-    scene.remove(pointLight);
-  }, 3000);
+  var duration = 3250 + (Math.random() - 0.5) * 500;
+  var endIntensity = 2.0 + Math.random() * 2;
+  var tweenUp = new TWEEN.Tween({intensity: 1.0})
+    .to({intensity: endIntensity}, duration)
+    .easing(TWEEN.Easing.Exponential.InOut)
+    .onUpdate(function() {
+      pointLight.intensity = this.intensity;
+    });
+  var tweenOut = new TWEEN.Tween({intensity: endIntensity})
+    .to({intensity: 0.0}, 1000)
+    .easing(TWEEN.Easing.Exponential.Out)
+    .onUpdate(function(){
+      pointLight.intensity = this.intensity;
+    })
+    .onComplete(function() {
+      scene.remove(pointLight);
+    });
+  tweenUp.chain(tweenOut);
+  tweenUp.start();
   return pointLight;
 }
 
 
 var texture = THREE.ImageUtils.loadTexture(
-  //'/assets/bitmaps/tile_transparent_red.png',
   '/assets/bitmaps/tile.png',
   null, function() {
   console.log('Success')
@@ -88,7 +101,7 @@ var plane = new THREE.Mesh(
 var theFUCKINGBackground = new THREE.Mesh(
   new THREE.CylinderGeometry(250, 250, 500, 32),
   new THREE.MeshBasicMaterial({
-    map: THREE.ImageUtils.loadTexture('/assets/HUGE/remoreassetsforyou/stars1.png')
+    map: THREE.ImageUtils.loadTexture('/assets/bitmaps/stars.png')
   })
 );
 theFUCKINGBackground.scale.y = -1;
