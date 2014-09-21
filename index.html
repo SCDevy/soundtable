@@ -21,7 +21,7 @@
     <script src="//js.leapmotion.com/leap-0.6.2.min.js"></script>
     <script src="//js.leapmotion.com/leap-plugins-0.1.6.1.js"></script>
     <script src="//js.leapmotion.com/leap.rigged-hand-0.1.4.min.js"></script>
-    <script src="/lib/tween.js"></script>
+    <script src="lib/tween.js"></script>
     <script src="wad/src/jquery.js"></script>
     <script src="wad/src/wad.js"></script>
     <script src="wad/src/player.js"></script>
@@ -38,7 +38,7 @@
       channel.bind('pusher:member_added', function() {alertLog('Someone has joined');});
       channel.bind('pusher:member_removed', function() {alertLog('Someone has left');});
       channel.bind('client-sendWave', function(data) {
-        createWave(data.which, data.x, data.y)
+        createWave(data.which, data.x, data.y);
       });
     });
     function sendWave(which, x, y) {

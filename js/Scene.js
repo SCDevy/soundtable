@@ -86,7 +86,7 @@ function placeLight(x, y, z, color) {
 
 
 var texture = THREE.ImageUtils.loadTexture(
-  '/assets/bitmaps/hextiles.png',
+  'assets/bitmaps/hextiles.png',
   null, function() {
   console.log('Success')
 }, function(err) {console.log(err);});
@@ -100,14 +100,14 @@ var plane = new THREE.Mesh(
     side: THREE.DoubleSide,
     map: texture,
     transparent: true,
-    opacity: 0.3
+    opacity: 0.5
   })
 );
 
 var theFUCKINGBackground = new THREE.Mesh(
   new THREE.CylinderGeometry(250, 250, 500, 32),
   new THREE.MeshBasicMaterial({
-    map: THREE.ImageUtils.loadTexture('/assets/bitmaps/stars.png')
+    map: THREE.ImageUtils.loadTexture('assets/bitmaps/stars.png')
   })
 );
 theFUCKINGBackground.scale.y = -1;

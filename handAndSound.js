@@ -5,6 +5,23 @@
 		progress = document.getElementById('progress');
 
 	var prev = null;
+
+var sound2color = {
+	0: 0x0C37FF,
+	1: 0x009CFF,
+	2: 0x03FFEF,
+	3: 0x8C0BFF,
+	4: 0xE80DCA,
+	5: 0xFF078B,
+	6: 0x0BC4E8,
+	7: 0xE301FF,
+}
+
+function createWave(which, x, y) {
+	playSound(which);
+	lightOnClick(x, y, sound2color[which]);
+}
+
 function leapPointToWorld(leapPoint, frame)
 {
     var normalized = frame.interactionBox.normalizePoint(leapPoint, false);
@@ -55,29 +72,21 @@ function leapPointToWorld(leapPoint, frame)
 
 	              console.log(gesture);
 	              if (pt.x > 75 && pt.y > 0) { // top-left
-	                playSound(0);
-									lightOnClick(pt.x,pt.y,0x0C37FF);
+	              	createWave(0, pt.x, pt.y)
 	              } else if (pt.x > 75 && pt.y < 0){ // bottom-left
-	                playSound(1);
-									lightOnClick(pt.x,pt.y,0x009CFF);
+	              	createWave(1, pt.x, pt.y)
 								} else if (pt.x < 75 && pt.x > 0 && pt.y > 0){ // top-center-left
-										playSound(2);
-										lightOnClick(pt.x,pt.y,0x03FFEF);
+	              	createWave(2, pt.x, pt.y)
 								} else if (pt.x < 75 && pt.x > 0 && pt.y < 0){ // bottom-center-left
-										playSound(3);
-										lightOnClick(pt.x,pt.y,0x8C0BFF);
+	              	createWave(3, pt.x, pt.y)
 	              } else if (pt.x < -75 && pt.y > 0) { // top-center-right
-	              	playSound(4);
-									lightOnClick(pt.x,pt.y,0xE80DCA);
+	              	createWave(4, pt.x, pt.y)
 	              } else if (pt.x < -75 && pt.y < 0) { // bottom-center-right
-	              	playSound(5);
-									lightOnClick(pt.x,pt.y,0xFF078B);
+	              	createWave(5, pt.x, pt.y)
 								} else if (pt.x > -75 && pt.x < 0 && pt.y > 0) { // top-right
-										playSound(6);
-										lightOnClick(pt.x,pt.y,0x0BC4E8);
+	              	createWave(6, pt.x, pt.y)
 								} else if (pt.x > -75 && pt.x < 0 && pt.y < 0) { // bottom-right
-									playSound(7);
-									lightOnClick(pt.x,pt.y,0xE301FF);
+	              	createWave(7, pt.x, pt.y)
 								}
 
 	              break;
