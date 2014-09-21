@@ -26,7 +26,7 @@
   var scene = new THREE.Scene();
   var ambient = new THREE.AmbientLight( 0x333333);
   scene.add( ambient );
-  
+
   render(new Date().getTime());
 
 
@@ -57,7 +57,7 @@ function lightOnClick(x, y, color) {
 
 function placeLight(x, y, z, color) {
   console.log('place light', x, y, z, color, ' woo!');
-  var pointLight = new THREE.PointLight(color, 1.0, 800);
+  var pointLight = new THREE.PointLight(color, 1.0, 80000);
   pointLight.position.set(x, y, z);
   scene.add(pointLight);
   plane.material.needsUpdate = true;
