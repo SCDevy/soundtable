@@ -49,6 +49,7 @@ function leapPointToWorld(leapPoint, frame)
 		  		//progress.style.width = hand.grabStrength * 100 + '%';
 			}
 		}
+
 		if(frame.valid && frame.gestures.length > 0){
 		    frame.gestures.forEach(function(gesture){
 	        switch (gesture.type){
