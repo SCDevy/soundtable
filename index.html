@@ -3,6 +3,7 @@
   <head>
     <title>SoundTable</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/alertify.css">
     <link rel="icon" href="favicon.ico">
   </head>
   <body>
@@ -34,8 +35,8 @@
 
     // SEND
     channel.bind('pusher:subscription_succeeded', function() {
-      channel.bind('pusher:member_added', function() {});
-      channel.bind('pusher:member_removed', function() {});
+      channel.bind('pusher:member_added', function() {alertLog('Someone has joined');});
+      channel.bind('pusher:member_removed', function() {alertLog('Someone has left');});
       channel.bind('client-sendWave', function(data) {
         createWave(data.which, data.x, data.y)
       });
@@ -43,6 +44,10 @@
     function sendWave(which, x, y) {
       channel.trigger("client-sendWave", {which: which, x: x, y: y});
     }
+    function alertLog(msg) {
+      alertify.log(msg);
+    }
     </script>
+    <script src="js/alertify.js"></script>
   </body>
 </html>
