@@ -196,10 +196,6 @@ function startAnimation() {
     .start()
 }
 
-function playChord() {
-  playSound(4);
-}
-
 function start() {
   if (started) {
     return
@@ -213,7 +209,7 @@ function start() {
   setTimeout(function() {
     fadeIntro(document.getElementById("intro"));
     startAnimation();
-    playChord();
+    // playChord();
   }, 2000 );
 }
 
